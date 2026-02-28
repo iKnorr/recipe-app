@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createRecipe, updateRecipe } from "@/actions/recipes";
-import { uploadRecipeImage } from "@/actions/upload-image";
+import { createClient } from "@/lib/supabase/client";
 import { Ingredient, Recipe, RecipeInsert, Step } from "@/lib/types";
 import { toast } from "sonner";
 
@@ -215,16 +215,23 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
                 const file = e.target.files?.[0];
                 if (!file) return;
                 setUploading(true);
-                const formData = new FormData();
-                formData.append("image", file);
-                const result = await uploadRecipeImage(formData);
-                setUploading(false);
-                if (result.success) {
-                  setImageUrl(result.url);
+                try {
+                  const supabase = createClient();
+                  const ext = file.name.split(".").pop() || "jpg";
+                  const fileName = `${crypto.randomUUID()}.${ext}`;
+                  const { error } = await supabase.storage
+                    .from("recipe-images")
+                    .upload(fileName, file);
+                  if (error) throw error;
+                  const { data: urlData } = supabase.storage
+                    .from("recipe-images")
+                    .getPublicUrl(fileName);
+                  setImageUrl(urlData.publicUrl);
                   toast.success("Image uploaded");
-                } else {
-                  toast.error(result.error);
+                } catch (err) {
+                  toast.error(err instanceof Error ? err.message : "Upload failed");
                 }
+                setUploading(false);
                 e.target.value = "";
               }}
               className="block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
