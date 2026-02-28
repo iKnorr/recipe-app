@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Recipes",
+  title: "Chez Ingo",
   description: "Personal recipe collection",
   manifest: "/manifest.json",
   icons: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "My Recipes",
+    title: "Chez Ingo",
   },
 };
 
@@ -49,7 +49,7 @@ export default function RootLayout({
         <header className="border-b">
           <div className="container mx-auto flex items-center justify-between px-4 py-3">
             <Link href="/" className="text-xl font-bold">
-              My Recipes
+              Chez Ingo
             </Link>
             <Link
               href="/recipes/new"

@@ -1,6 +1,6 @@
 {
-  "name": "My Recipes",
-  "short_name": "Recipes",
+  "name": "Chez Ingo",
+  "short_name": "Chez Ingo",
   "description": "Personal recipe collection",
   "start_url": "/",
   "display": "standalone",

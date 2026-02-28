@@ -14,7 +14,7 @@ export default async function Home() {
   if (!recipes || recipes.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-3xl font-bold">Welcome to My Recipes</h1>
+        <h1 className="text-3xl font-bold">Welcome to Chez Ingo</h1>
         <p className="mt-2 text-muted-foreground">
           Your personal recipe collection. Add your first recipe to get started!
         </p>
@@ -32,7 +32,7 @@ export default async function Home() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">
-          My Recipes ({recipes.length})
+          Recipes ({recipes.length})
         </h1>
       </div>
       <RecipeGrid recipes={recipes} />
