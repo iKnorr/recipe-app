@@ -122,7 +122,10 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
       } else {
         await createRecipe(recipeData);
       }
-    } catch {
+    } catch (error) {
+      if (typeof error === "object" && error !== null && "digest" in error) {
+        throw error;
+      }
       toast.error("Failed to save recipe");
       setSubmitting(false);
     }

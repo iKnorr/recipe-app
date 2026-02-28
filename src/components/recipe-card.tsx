@@ -13,9 +13,9 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
 
   return (
     <Link href={`/recipes/${recipe.id}`}>
-      <Card className="h-full transition-shadow hover:shadow-md">
+      <Card className={`h-full transition-shadow hover:shadow-md ${recipe.image_url ? "pt-0 overflow-hidden" : ""}`}>
         {recipe.image_url && (
-          <div className="relative h-40 w-full overflow-hidden rounded-t-lg">
+          <div className="relative h-40 w-full overflow-hidden">
             <img
               src={recipe.image_url}
               alt={recipe.title}

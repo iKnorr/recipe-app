@@ -46,7 +46,10 @@ export function TipForm({ tip }: TipFormProps) {
       } else {
         await createTip(tipData);
       }
-    } catch {
+    } catch (error) {
+      if (typeof error === "object" && error !== null && "digest" in error) {
+        throw error;
+      }
       toast.error("Failed to save tip");
       setSubmitting(false);
     }
