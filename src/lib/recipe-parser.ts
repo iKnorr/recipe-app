@@ -1,6 +1,17 @@
 import * as cheerio from "cheerio";
 import { Ingredient, Step } from "@/lib/types";
 
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+}
+
 interface ParsedRecipe {
   title: string;
   description: string | null;
@@ -95,8 +106,8 @@ function normalizeSchemaRecipe(
   schema: Record<string, unknown>
 ): Omit<ParsedRecipe, "source_url"> {
   return {
-    title: String(schema.name || "Untitled Recipe"),
-    description: schema.description ? String(schema.description) : null,
+    title: decodeHtmlEntities(String(schema.name || "Untitled Recipe")),
+    description: schema.description ? decodeHtmlEntities(String(schema.description)) : null,
     ingredients: parseIngredientsList(schema.recipeIngredient),
     steps: parseInstructionsList(schema.recipeInstructions),
     prep_time: parseDuration(schema.prepTime),
@@ -115,7 +126,8 @@ function parseIngredientsList(raw: unknown): Ingredient[] {
   });
 }
 
-function parseIngredientText(text: string): Ingredient {
+function parseIngredientText(raw: string): Ingredient {
+  const text = decodeHtmlEntities(raw);
   // Try to split "2 cups flour" into amount, unit, name
   const match = text.match(
     /^([\d./\s½¼¾⅓⅔⅛]+)?\s*(cups?|tbsp|tsp|tablespoons?|teaspoons?|oz|ounces?|lbs?|pounds?|g|kg|ml|l|liters?|cloves?|pieces?|slices?|cans?|bunch|pinch|dash)?\s*(.+)?$/i
@@ -147,7 +159,7 @@ function parseInstructionsList(raw: unknown): Step[] {
         if (obj["@type"] === "HowToStep") {
           steps.push({
             order: order++,
-            instruction: String(obj.text || obj.name || "").trim(),
+            instruction: decodeHtmlEntities(String(obj.text || obj.name || "")).trim(),
           });
         } else if (obj["@type"] === "HowToSection") {
           // Some recipes group steps into sections
