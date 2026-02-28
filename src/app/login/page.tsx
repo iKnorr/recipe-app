@@ -33,7 +33,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">CookBase</CardTitle>
+          <CardTitle className="text-2xl">Monsieur Cookie Dough</CardTitle>
           <p className="text-sm text-muted-foreground">
             Enter password to continue
           </p>

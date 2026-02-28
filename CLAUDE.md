@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**CookBase** - Personal recipe management web app. Deployed at `cuisine.iknorr.com`.
+**Monsieur Cookie Dough** - Personal recipe management web app. Deployed at `cuisine.iknorr.com`.
 
 ## Commands
 

@@ -1,6 +1,6 @@
 {
-  "name": "CookBase",
-  "short_name": "CookBase",
+  "name": "Monsieur Cookie Dough",
+  "short_name": "Monsieur Cookie Dough",
   "description": "Personal recipe collection",
   "start_url": "/",
   "display": "standalone",

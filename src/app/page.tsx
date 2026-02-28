@@ -14,7 +14,7 @@ export default async function Home() {
   if (!recipes || recipes.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <h1 className="text-3xl font-bold">Welcome to CookBase</h1>
+        <h1 className="text-3xl font-bold">Welcome to Monsieur Cookie Dough</h1>
         <p className="mt-2 text-muted-foreground">
           Your personal recipe collection. Add your first recipe to get started!
         </p>
