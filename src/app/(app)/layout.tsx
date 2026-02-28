@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoutButton } from "@/components/logout-button";
 
 export default function AppLayout({
   children,
@@ -12,12 +13,15 @@ export default function AppLayout({
           <Link href="/" className="text-xl font-bold">
             Monsieur Cookie Dough
           </Link>
-          <Link
-            href="/recipes/new"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            + Add Recipe
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/recipes/new"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              + Add Recipe
+            </Link>
+            <LogoutButton />
+          </div>
         </div>
         <nav className="container mx-auto flex gap-6 border-t px-4 py-2">
           <Link

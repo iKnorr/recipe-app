@@ -3,8 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 const COOKIE_NAME = "recipe-auth";
 
 export function middleware(request: NextRequest) {
-  // Allow the login API route
-  if (request.nextUrl.pathname === "/api/login") {
+  // Allow login/logout API routes
+  if (
+    request.nextUrl.pathname === "/api/login" ||
+    request.nextUrl.pathname === "/api/logout"
+  ) {
     return NextResponse.next();
   }
 
