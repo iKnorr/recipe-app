@@ -48,23 +48,9 @@ export default function RootLayout({
       >
         <header className="border-b">
           <div className="container mx-auto flex items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-6">
-              <Link href="/" className="text-xl font-bold">
-                Monsieur Cookie Dough
-              </Link>
-              <Link
-                href="/"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground"
-              >
-                Recipes
-              </Link>
-              <Link
-                href="/tips"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground"
-              >
-                Tips
-              </Link>
-            </div>
+            <Link href="/" className="text-xl font-bold">
+              Monsieur Cookie Dough
+            </Link>
             <Link
               href="/recipes/new"
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
@@ -72,6 +58,20 @@ export default function RootLayout({
               + Add Recipe
             </Link>
           </div>
+          <nav className="container mx-auto flex gap-6 border-t px-4 py-2">
+            <Link
+              href="/"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              Recipes
+            </Link>
+            <Link
+              href="/tips"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              Tips
+            </Link>
+          </nav>
         </header>
         <main className="container mx-auto px-4 py-6">{children}</main>
         <Toaster />
