@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "My Recipes",
   description: "Personal recipe collection",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icons/icon.svg",
+    apple: "/icons/icon.svg",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -29,7 +33,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#09090b",
+  themeColor: "#F97316",
 };
 
 export default function RootLayout({

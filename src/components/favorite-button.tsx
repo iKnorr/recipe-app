@@ -24,8 +24,10 @@ export function FavoriteButton({ id, isFavorite }: FavoriteButtonProps) {
       size="sm"
       onClick={handleToggle}
       disabled={isPending}
+      className={isFavorite ? "text-yellow-500 hover:text-yellow-600" : ""}
     >
-      {isFavorite ? "Unfavorite" : "Favorite"}
+      <span className="mr-1">{isFavorite ? "\u2605" : "\u2606"}</span>
+      {isFavorite ? "Favorited" : "Favorite"}
     </Button>
   );
 }

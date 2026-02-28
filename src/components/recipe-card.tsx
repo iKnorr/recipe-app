@@ -28,7 +28,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <CardTitle className="line-clamp-2 text-lg">
               {recipe.title}
             </CardTitle>
-            {recipe.is_favorite && <span className="text-lg">*</span>}
+            {recipe.is_favorite && <span className="text-lg text-yellow-500">&#9733;</span>}
           </div>
         </CardHeader>
         <CardContent>

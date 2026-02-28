@@ -1,4 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <rect width="512" height="512" rx="96" fill="#09090b"/>
-  <text x="256" y="320" text-anchor="middle" font-family="system-ui, sans-serif" font-size="280" font-weight="bold" fill="white">R</text>
+  <rect width="512" height="512" rx="112" fill="#F97316"/>
+  <!-- Steam lines -->
+  <path d="M180 140 Q180 110 195 90" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M256 130 Q256 95 271 75" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M332 140 Q332 110 347 90" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <!-- Pot lid -->
+  <rect x="120" y="175" width="272" height="30" rx="15" fill="white"/>
+  <rect x="230" y="158" width="52" height="22" rx="11" fill="white"/>
+  <!-- Pot body -->
+  <rect x="130" y="205" width="252" height="180" rx="24" fill="white"/>
+  <!-- Pot handles -->
+  <rect x="90" y="260" width="50" height="24" rx="12" fill="white"/>
+  <rect x="372" y="260" width="50" height="24" rx="12" fill="white"/>
+  <!-- Heart on pot -->
+  <path d="M256 310 C256 290 232 275 220 290 C208 305 256 345 256 345 C256 345 304 305 292 290 C280 275 256 290 256 310Z" fill="#F97316"/>
 </svg>
