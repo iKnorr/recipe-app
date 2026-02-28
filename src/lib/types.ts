@@ -29,3 +29,25 @@ export interface Recipe {
 
 export type RecipeInsert = Omit<Recipe, "id" | "created_at" | "updated_at">;
 export type RecipeUpdate = Partial<RecipeInsert>;
+
+export const COOKING_TIP_CATEGORIES = [
+  "vegetables",
+  "meat",
+  "fish",
+  "sauces",
+  "grains",
+  "dairy",
+  "baking",
+  "general",
+] as const;
+
+export interface CookingTip {
+  id: string;
+  category: string;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type CookingTipInsert = Omit<CookingTip, "id" | "created_at" | "updated_at">;
