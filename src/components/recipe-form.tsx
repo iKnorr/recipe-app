@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createRecipe, updateRecipe } from "@/actions/recipes";
+import { uploadRecipeImage } from "@/actions/upload-image";
 import { Ingredient, Recipe, RecipeInsert, Step } from "@/lib/types";
 import { toast } from "sonner";
 
@@ -31,6 +32,8 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
   const [sourceUrl, setSourceUrl] = useState(source?.source_url ?? "");
   const [tags, setTags] = useState(source?.tags.join(", ") ?? "");
   const [notes, setNotes] = useState(source?.notes ?? "");
+  const [imageUrl, setImageUrl] = useState(source?.image_url ?? "");
+  const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   function addIngredient() {
@@ -82,7 +85,7 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
         cook_time: cookTime ? parseInt(cookTime) : null,
         servings: servings ? parseInt(servings) : null,
         source_url: sourceUrl.trim() || null,
-        image_url: source?.image_url ?? null,
+        image_url: imageUrl || null,
         tags: tags
           .split(",")
           .map((t) => t.trim().toLowerCase())
@@ -179,6 +182,56 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
               onChange={(e) => setTags(e.target.value)}
               placeholder="italian, pasta, quick"
             />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Photo</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {imageUrl && (
+            <div className="relative overflow-hidden rounded-md">
+              <img
+                src={imageUrl}
+                alt="Recipe"
+                className="h-48 w-full object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => setImageUrl("")}
+                className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-1 text-xs text-white hover:bg-black/80"
+              >
+                Remove
+              </button>
+            </div>
+          )}
+          <div>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setUploading(true);
+                const formData = new FormData();
+                formData.append("image", file);
+                const result = await uploadRecipeImage(formData);
+                setUploading(false);
+                if (result.success) {
+                  setImageUrl(result.url);
+                  toast.success("Image uploaded");
+                } else {
+                  toast.error(result.error);
+                }
+                e.target.value = "";
+              }}
+              className="block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
+            />
+            {uploading && (
+              <p className="mt-1 text-sm text-muted-foreground">Uploading...</p>
+            )}
           </div>
         </CardContent>
       </Card>
