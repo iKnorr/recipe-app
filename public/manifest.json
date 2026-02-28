@@ -1,6 +1,6 @@
 {
-  "name": "Chez Ingo",
-  "short_name": "Chez Ingo",
+  "name": "CookBase",
+  "short_name": "CookBase",
   "description": "Personal recipe collection",
   "start_url": "/",
   "display": "standalone",

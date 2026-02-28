@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-**Chez Ingo** - Personal recipe management web app. Deployed at `cuisine.iknorr.com`.
+**CookBase** - Personal recipe management web app. Deployed at `cuisine.iknorr.com`.
 
 ## Commands
 
