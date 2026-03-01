@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChefHatIcon } from "lucide-react";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
@@ -34,7 +35,10 @@ export default function LoginPage() {
     <div className="flex h-dvh items-center justify-center bg-background px-4">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">M. Cookie Dough</CardTitle>
+          <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+            <ChefHatIcon className="size-6 text-primary" />
+            M. Cookie Dough
+          </CardTitle>
           <p className="text-sm text-muted-foreground">
             Enter password to continue
           </p>

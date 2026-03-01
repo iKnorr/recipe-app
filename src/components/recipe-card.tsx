@@ -29,7 +29,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <CardTitle className="line-clamp-2 text-lg">
               {recipe.title}
             </CardTitle>
-            {recipe.is_favorite && <ChefHatIcon className="size-5 shrink-0 text-orange-500" />}
+            {recipe.is_favorite && <ChefHatIcon className="size-5 shrink-0 text-primary" />}
           </div>
         </CardHeader>
         <CardContent>

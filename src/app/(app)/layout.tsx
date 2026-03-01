@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChefHatIcon } from "lucide-react";
 import { LogoutButton } from "@/components/logout-button";
 
 export default function AppLayout({
@@ -10,7 +11,8 @@ export default function AppLayout({
     <>
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
-          <Link href="/" className="text-xl font-bold">
+          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+            <ChefHatIcon className="size-6 text-primary" />
             M. Cookie Dough
           </Link>
           <div className="flex items-center gap-2">

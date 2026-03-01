@@ -25,7 +25,7 @@ export function FavoriteButton({ id, isFavorite }: FavoriteButtonProps) {
       size="sm"
       onClick={handleToggle}
       disabled={isPending}
-      className={isFavorite ? "text-orange-500 hover:text-orange-600" : ""}
+      className={isFavorite ? "text-primary hover:text-primary/80" : ""}
     >
       <ChefHatIcon className="mr-1 size-4" />
       {isFavorite ? "Favorited" : "Favorite"}
