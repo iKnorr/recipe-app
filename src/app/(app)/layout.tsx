@@ -18,7 +18,8 @@ export default function AppLayout({
               href="/recipes/new"
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
-              + Add Recipe
+              <span className="sm:hidden">+</span>
+              <span className="hidden sm:inline">+ Add Recipe</span>
             </Link>
             <LogoutButton />
           </div>
