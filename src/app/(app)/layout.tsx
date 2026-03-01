@@ -11,7 +11,7 @@ export default function AppLayout({
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link href="/" className="text-xl font-bold">
-            Monsieur Cookie Dough
+            M. Cookie Dough
           </Link>
           <div className="flex items-center gap-2">
             <Link

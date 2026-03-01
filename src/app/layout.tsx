@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Monsieur Cookie Dough",
+  title: "M. Cookie Dough",
   description: "Personal recipe collection",
   manifest: "/manifest.json",
   icons: {
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Monsieur Cookie Dough",
+    title: "M. Cookie Dough",
   },
 };
 

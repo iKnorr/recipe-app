@@ -1,6 +1,6 @@
 {
-  "name": "Monsieur Cookie Dough",
-  "short_name": "Monsieur Cookie Dough",
+  "name": "M. Cookie Dough",
+  "short_name": "M. Cookie Dough",
   "description": "Personal recipe collection",
   "start_url": "/",
   "display": "standalone",
