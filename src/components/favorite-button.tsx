@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import { ChefHatIcon } from "lucide-react";
 import { toggleFavorite } from "@/actions/recipes";
 
 interface FavoriteButtonProps {
@@ -24,9 +25,9 @@ export function FavoriteButton({ id, isFavorite }: FavoriteButtonProps) {
       size="sm"
       onClick={handleToggle}
       disabled={isPending}
-      className={isFavorite ? "text-yellow-500 hover:text-yellow-600" : ""}
+      className={isFavorite ? "text-orange-500 hover:text-orange-600" : ""}
     >
-      <span className="mr-1">{isFavorite ? "\u2605" : "\u2606"}</span>
+      <ChefHatIcon className="mr-1 size-4" />
       {isFavorite ? "Favorited" : "Favorite"}
     </Button>
   );
