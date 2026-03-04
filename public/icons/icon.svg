@@ -1,17 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
   <rect width="512" height="512" rx="112" fill="#F97316"/>
-  <!-- Steam lines -->
-  <path d="M180 140 Q180 110 195 90" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
-  <path d="M256 130 Q256 95 271 75" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
-  <path d="M332 140 Q332 110 347 90" stroke="white" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.7"/>
-  <!-- Pot lid -->
-  <rect x="120" y="175" width="272" height="30" rx="15" fill="white"/>
-  <rect x="230" y="158" width="52" height="22" rx="11" fill="white"/>
-  <!-- Pot body -->
-  <rect x="130" y="205" width="252" height="180" rx="24" fill="white"/>
-  <!-- Pot handles -->
-  <rect x="90" y="260" width="50" height="24" rx="12" fill="white"/>
-  <rect x="372" y="260" width="50" height="24" rx="12" fill="white"/>
-  <!-- Heart on pot -->
-  <path d="M256 310 C256 290 232 275 220 290 C208 305 256 345 256 345 C256 345 304 305 292 290 C280 275 256 290 256 310Z" fill="#F97316"/>
+  <!-- Chef hat puff (top) -->
+  <circle cx="256" cy="170" r="70" fill="white"/>
+  <circle cx="190" cy="200" r="60" fill="white"/>
+  <circle cx="322" cy="200" r="60" fill="white"/>
+  <!-- Chef hat body -->
+  <rect x="165" y="200" width="182" height="150" fill="white"/>
+  <!-- Hat band -->
+  <rect x="155" y="345" width="202" height="40" rx="8" fill="white"/>
+  <!-- Band line -->
+  <line x1="165" y1="355" x2="347" y2="355" stroke="#F97316" stroke-width="4" opacity="0.4"/>
 </svg>
