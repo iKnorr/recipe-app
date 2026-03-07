@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createRecipe, updateRecipe } from "@/actions/recipes";
 import { createClient } from "@/lib/supabase/client";
-import { Ingredient, Recipe, RecipeInsert, Step } from "@/lib/types";
+import { Badge } from "@/components/ui/badge";
+import { Ingredient, Recipe, RecipeCategory, RecipeInsert, RECIPE_CATEGORIES, Step } from "@/lib/types";
 import { toast } from "sonner";
 
 interface RecipeFormProps {
@@ -33,6 +34,13 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
   const [tags, setTags] = useState(source?.tags.join(", ") ?? "");
   const [notes, setNotes] = useState(source?.notes ?? "");
   const [imageUrl, setImageUrl] = useState(source?.image_url ?? "");
+  const [categories, setCategories] = useState<RecipeCategory[]>(source?.categories ?? []);
+
+  function toggleCategory(cat: RecipeCategory) {
+    setCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -115,6 +123,7 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
           .filter(Boolean),
         notes: notes.trim() || null,
         is_favorite: recipe?.is_favorite ?? false,
+        categories,
       };
 
       if (recipe) {
@@ -199,6 +208,21 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
               onChange={(e) => setSourceUrl(e.target.value)}
               placeholder="https://..."
             />
+          </div>
+          <div>
+            <Label>Categories</Label>
+            <div className="mt-1.5 flex flex-wrap gap-2">
+              {RECIPE_CATEGORIES.map((cat) => (
+                <Badge
+                  key={cat}
+                  variant={categories.includes(cat) ? "default" : "outline"}
+                  className="cursor-pointer capitalize"
+                  onClick={() => toggleCategory(cat)}
+                >
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </Badge>
+              ))}
+            </div>
           </div>
           <div>
             <Label htmlFor="tags">Tags (comma separated)</Label>

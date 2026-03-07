@@ -50,20 +50,23 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
               </span>
             )}
           </div>
-          {recipe.tags.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1">
-              {recipe.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-xs">
-                  {tag}
-                </Badge>
-              ))}
-              {recipe.tags.length > 3 && (
-                <Badge variant="secondary" className="text-xs">
-                  +{recipe.tags.length - 3}
-                </Badge>
-              )}
-            </div>
-          )}
+          <div className="mt-2 flex flex-wrap gap-1">
+            {recipe.categories.map((cat) => (
+              <Badge key={cat} variant="outline" className="text-xs capitalize">
+                {cat}
+              </Badge>
+            ))}
+            {recipe.tags.slice(0, 3).map((tag) => (
+              <Badge key={tag} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+            {recipe.tags.length > 3 && (
+              <Badge variant="secondary" className="text-xs">
+                +{recipe.tags.length - 3}
+              </Badge>
+            )}
+          </div>
         </CardContent>
       </Card>
     </Link>

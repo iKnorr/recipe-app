@@ -9,6 +9,9 @@ export interface Step {
   instruction: string;
 }
 
+export const RECIPE_CATEGORIES = ['breakfast', 'lunch', 'dinner', 'dessert'] as const;
+export type RecipeCategory = typeof RECIPE_CATEGORIES[number];
+
 export interface Recipe {
   id: string;
   title: string;
@@ -23,6 +26,7 @@ export interface Recipe {
   tags: string[];
   notes: string | null;
   is_favorite: boolean;
+  categories: RecipeCategory[];
   created_at: string;
   updated_at: string;
 }

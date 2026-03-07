@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/recipe-card";
-import { Recipe } from "@/lib/types";
+import { Recipe, RecipeCategory, RECIPE_CATEGORIES } from "@/lib/types";
 
 interface RecipeGridProps {
   recipes: Recipe[];
@@ -14,6 +14,7 @@ interface RecipeGridProps {
 export function RecipeGrid({ recipes }: RecipeGridProps) {
   const [search, setSearch] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<RecipeCategory | null>(null);
   const [showFavorites, setShowFavorites] = useState(false);
 
   const allTags = useMemo(() => {
@@ -25,6 +26,7 @@ export function RecipeGrid({ recipes }: RecipeGridProps) {
   const filtered = useMemo(() => {
     return recipes.filter((r) => {
       if (showFavorites && !r.is_favorite) return false;
+      if (selectedCategory && !r.categories.includes(selectedCategory)) return false;
       if (selectedTag && !r.tags.includes(selectedTag)) return false;
       if (search) {
         const q = search.toLowerCase();
@@ -37,10 +39,30 @@ export function RecipeGrid({ recipes }: RecipeGridProps) {
       }
       return true;
     });
-  }, [recipes, search, selectedTag, showFavorites]);
+  }, [recipes, search, selectedTag, selectedCategory, showFavorites]);
 
   return (
     <div>
+      <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
+        <Badge
+          variant={selectedCategory === null ? "default" : "secondary"}
+          className="cursor-pointer whitespace-nowrap"
+          onClick={() => setSelectedCategory(null)}
+        >
+          All
+        </Badge>
+        {RECIPE_CATEGORIES.map((cat) => (
+          <Badge
+            key={cat}
+            variant={selectedCategory === cat ? "default" : "secondary"}
+            className="cursor-pointer whitespace-nowrap"
+            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+          >
+            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </Badge>
+        ))}
+      </div>
+
       <div className="mb-6 space-y-3">
         <div className="flex gap-2">
           <Input
