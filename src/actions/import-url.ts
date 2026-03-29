@@ -22,6 +22,7 @@ export async function importFromUrl(
       tags: [],
       notes: null,
       is_favorite: false,
+      categories: [],
     };
 
     return { success: true, recipe };

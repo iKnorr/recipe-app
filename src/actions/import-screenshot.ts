@@ -50,6 +50,7 @@ export async function importFromScreenshot(
       tags: [],
       notes: null,
       is_favorite: false,
+      categories: [],
     };
 
     return { success: true, recipe };
