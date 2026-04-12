@@ -6,8 +6,7 @@ export function middleware(request: NextRequest) {
   // Allow login/logout API routes
   if (
     request.nextUrl.pathname === "/api/login" ||
-    request.nextUrl.pathname === "/api/logout" ||
-    request.nextUrl.pathname === "/api/keep-alive"
+    request.nextUrl.pathname === "/api/logout"
   ) {
     return NextResponse.next();
   }

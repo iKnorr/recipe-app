@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ChefHatIcon } from "lucide-react";
 import { LogoutButton } from "@/components/logout-button";
 
+export const dynamic = "force-dynamic";
+
 export default function AppLayout({
   children,
 }: {

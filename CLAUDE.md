@@ -26,11 +26,11 @@ Next.js 16 App Router with TypeScript. Uses React Server Components by default; 
 
 **Route groups:** Authenticated pages live in `src/app/(app)/` (recipes, tips). The login page lives at `src/app/login/` outside the group, so it renders without the header/nav.
 
-**Data layer:** Supabase (PostgreSQL) via `@supabase/ssr`. No ORM — direct Supabase client queries. Two client variants:
-- `src/lib/supabase/server.ts` — server-side with cookie handling (used in server actions)
-- `src/lib/supabase/client.ts` — browser-side
+**Data layer:** Neon PostgreSQL via `@neondatabase/serverless`. No ORM — direct SQL queries using Neon's tagged template literals. Database client in `src/lib/db.ts`.
 
-**Mutations:** All writes go through server actions in `src/actions/`. Pattern: validate → Supabase query → `revalidatePath()` → `redirect()`. Note: `redirect()` throws internally — client-side catch blocks must rethrow errors with a `digest` property to avoid false error toasts.
+**Image storage:** Supabase Storage bucket `recipe-images` (kept separately from the database). Supabase client wrappers in `src/lib/supabase/server.ts` and `src/lib/supabase/client.ts` are used only for storage operations.
+
+**Mutations:** All writes go through server actions in `src/actions/`. Pattern: validate → SQL query → `revalidatePath()` → `redirect()`. Note: `redirect()` throws internally — client-side catch blocks must rethrow errors with a `digest` property to avoid false error toasts.
 
 **Auth:** Simple password-based. Middleware (`src/middleware.ts`) checks a `recipe-auth` cookie against `AUTH_SECRET` env var. No Supabase Auth — just a login form that sets an httpOnly cookie for 30 days. Logout via `POST /api/logout` clears the cookie.
 
@@ -41,8 +41,6 @@ Next.js 16 App Router with TypeScript. Uses React Server Components by default; 
 **Cooking tips:** Simple CRUD for text-based tips organized by category. Server actions in `src/actions/cooking-tips.ts`. Categories defined as a const array `COOKING_TIP_CATEGORIES` in types.
 
 **Styling:** Tailwind CSS v4 + shadcn/ui (new-york style). Theme color is orange (#F97316). shadcn components live in `src/components/ui/`.
-
-**Image storage:** Supabase Storage bucket `recipe-images`. Upload directly from browser via Supabase client, public URL stored in recipe record.
 
 **PWA:** Manifest at `public/manifest.json`, standalone display mode. Installable on mobile via "Add to Home Screen".
 
@@ -71,7 +69,8 @@ Database stores `ingredients` and `steps` as JSONB arrays. Tags are `text[]`.
 ## Environment Variables
 
 Required in `.env.local` (see `.env.local.example`):
-- `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase connection
+- `DATABASE_URL` — Neon PostgreSQL connection string
+- `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase (storage only)
 - `ANTHROPIC_API_KEY` — Claude API for screenshot import
 - `SITE_PASSWORD` / `AUTH_SECRET` — password auth
 
