@@ -45,6 +45,16 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
   const [submitting, setSubmitting] = useState(false);
 
   function handleImageUpload(file: File) {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only JPEG, PNG, and WebP images are allowed");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Image must be under 10 MB");
+      return;
+    }
+
     setUploading(true);
     const supabase = createClient();
     const ext = file.name.split(".").pop() || "jpg";

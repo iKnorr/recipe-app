@@ -24,19 +24,84 @@ interface ParsedRecipe {
   source_url: string;
 }
 
+const MAX_RESPONSE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateUrl(input: string): URL {
+  let parsed: URL;
+  try {
+    parsed = new URL(input);
+  } catch {
+    throw new Error("Invalid URL");
+  }
+
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error("Only HTTP and HTTPS URLs are supported");
+  }
+
+  const hostname = parsed.hostname.toLowerCase();
+
+  const blockedHostnames = [
+    "localhost",
+    "metadata.google.internal",
+    "metadata.internal",
+  ];
+  if (blockedHostnames.includes(hostname)) {
+    throw new Error("Internal URLs are not allowed");
+  }
+
+  if (isPrivateIP(hostname)) {
+    throw new Error("Private or internal IP addresses are not allowed");
+  }
+
+  return parsed;
+}
+
+function isPrivateIP(hostname: string): boolean {
+  const ipv4Match = hostname.match(
+    /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
+  );
+  if (ipv4Match) {
+    const [a, b] = [Number(ipv4Match[1]), Number(ipv4Match[2])];
+    if (a === 0 || a === 127) return true;
+    if (a === 10) return true;
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 169 && b === 254) return true;
+    return false;
+  }
+
+  const normalized = hostname.replace(/^\[|\]$/g, "");
+  if (normalized === "::1") return true;
+  if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true;
+  if (normalized.startsWith("fe80")) return true;
+
+  return false;
+}
+
 export async function parseRecipeFromUrl(url: string): Promise<ParsedRecipe> {
-  const response = await fetch(url, {
+  const validatedUrl = validateUrl(url);
+
+  const response = await fetch(validatedUrl.toString(), {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (compatible; RecipeManager/1.0; +personal-use)",
     },
+    signal: AbortSignal.timeout(10_000),
   });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch URL: ${response.status}`);
   }
 
+  const contentLength = response.headers.get("content-length");
+  if (contentLength && parseInt(contentLength) > MAX_RESPONSE_SIZE) {
+    throw new Error("Response too large");
+  }
+
   const html = await response.text();
+  if (html.length > MAX_RESPONSE_SIZE) {
+    throw new Error("Response too large");
+  }
   const $ = cheerio.load(html);
 
   // Try schema.org JSON-LD first

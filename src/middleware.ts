@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifySessionToken } from "@/lib/auth";
 
 const COOKIE_NAME = "recipe-auth";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // Allow login/logout API routes
   if (
     request.nextUrl.pathname === "/api/login" ||
@@ -13,7 +14,7 @@ export function middleware(request: NextRequest) {
 
   const authCookie = request.cookies.get(COOKIE_NAME);
 
-  if (authCookie?.value === process.env.AUTH_SECRET) {
+  if (authCookie && (await verifySessionToken(authCookie.value))) {
     return NextResponse.next();
   }
 

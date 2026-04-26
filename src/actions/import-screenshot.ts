@@ -4,6 +4,8 @@ import { extractRecipeFromImages } from "@/lib/ai-extractor";
 import { RecipeInsert } from "@/lib/types";
 
 const SUPPORTED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_FILES = 10;
 
 export async function importFromScreenshot(
   formData: FormData
@@ -16,11 +18,20 @@ export async function importFromScreenshot(
       return { success: false, error: "No images provided" };
     }
 
+    if (files.length > MAX_FILES) {
+      return { success: false, error: `Maximum ${MAX_FILES} images allowed` };
+    }
+
     const images = await Promise.all(
       files.map(async (file) => {
         if (!SUPPORTED_TYPES.includes(file.type)) {
           throw new Error(
             `Unsupported format: ${file.name}. Use JPEG, PNG, WebP, or GIF.`
+          );
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          throw new Error(
+            `File too large: ${file.name}. Maximum size is 10 MB.`
           );
         }
         const bytes = await file.arrayBuffer();

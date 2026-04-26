@@ -5,7 +5,7 @@ export async function POST() {
   response.cookies.set("recipe-auth", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "strict",
     maxAge: 0,
     path: "/",
   });
