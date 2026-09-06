@@ -28,11 +28,11 @@ Next.js 16 App Router with TypeScript. Uses React Server Components by default; 
 
 **Data layer:** Neon PostgreSQL via `@neondatabase/serverless`. No ORM — direct SQL queries using Neon's tagged template literals. Database client in `src/lib/db.ts`.
 
-**Image storage:** Supabase Storage bucket `recipe-images` (kept separately from the database). Supabase client wrappers in `src/lib/supabase/server.ts` and `src/lib/supabase/client.ts` are used only for storage operations.
+**Image storage:** Vercel Blob. Uploads go client-side via `upload()` from `@vercel/blob/client` in `src/components/recipe-form.tsx`, authorized by the `handleUpload` route at `src/app/api/upload/route.ts` (checks the `recipe-auth` cookie, restricts to JPEG/PNG/WebP under 10 MB). Client uploads are used deliberately: files may exceed Vercel's 4.5 MB server request-body limit.
 
 **Mutations:** All writes go through server actions in `src/actions/`. Pattern: validate → SQL query → `revalidatePath()` → `redirect()`. Note: `redirect()` throws internally — client-side catch blocks must rethrow errors with a `digest` property to avoid false error toasts.
 
-**Auth:** Simple password-based. Middleware (`src/middleware.ts`) checks a `recipe-auth` cookie against `AUTH_SECRET` env var. No Supabase Auth — just a login form that sets an httpOnly cookie for 30 days. Logout via `POST /api/logout` clears the cookie.
+**Auth:** Simple password-based. Middleware (`src/middleware.ts`) checks a `recipe-auth` cookie against `AUTH_SECRET` env var. No third-party auth provider — just a login form that sets an httpOnly cookie for 30 days. Logout via `POST /api/logout` clears the cookie.
 
 **Recipe import — two methods:**
 - **URL parsing** (`src/lib/recipe-parser.ts`): Fetches URL, extracts schema.org/Recipe JSON-LD with cheerio, falls back to Open Graph meta tags
@@ -70,7 +70,7 @@ Database stores `ingredients` and `steps` as JSONB arrays. Tags are `text[]`.
 
 Required in `.env.local` (see `.env.local.example`):
 - `DATABASE_URL` — Neon PostgreSQL connection string
-- `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Supabase (storage only)
+- `BLOB_READ_WRITE_TOKEN` — Vercel Blob storage (auto-injected on Vercel; set manually for local dev)
 - `ANTHROPIC_API_KEY` — Claude API for screenshot import
 - `SITE_PASSWORD` / `AUTH_SECRET` — password auth
 

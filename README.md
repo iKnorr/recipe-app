@@ -7,7 +7,7 @@ Personal recipe management and cooking tips web app. Deployed at [cuisine.iknorr
 - **Recipe management** — Create, edit, delete, and favorite recipes with ingredients, steps, tags, and photos
 - **Recipe import** — Import recipes from a URL (schema.org JSON-LD extraction) or from screenshots using Claude AI
 - **Cooking tips** — Organize cooking tips by category (vegetables, meat, fish, sauces, etc.)
-- **Image upload** — Upload recipe photos to Supabase Storage
+- **Image upload** — Upload recipe photos to Vercel Blob
 - **PWA** — Installable as a standalone app on mobile devices
 - **Password auth** — Simple cookie-based authentication protecting all routes
 
@@ -15,7 +15,8 @@ Personal recipe management and cooking tips web app. Deployed at [cuisine.iknorr
 
 - **Framework:** [Next.js 16](https://nextjs.org) (App Router, React Server Components)
 - **Language:** TypeScript
-- **Database:** [Supabase](https://supabase.com) (PostgreSQL)
+- **Database:** [Neon](https://neon.tech) (serverless PostgreSQL)
+- **Storage:** [Vercel Blob](https://vercel.com/docs/vercel-blob)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)
 - **AI:** [Claude API](https://docs.anthropic.com) (recipe extraction from screenshots)
 - **Deployment:** [Vercel](https://vercel.com)
@@ -25,7 +26,8 @@ Personal recipe management and cooking tips web app. Deployed at [cuisine.iknorr
 ### Prerequisites
 
 - Node.js 20+
-- A Supabase project
+- A Neon project
+- A Vercel Blob store
 - An Anthropic API key (for screenshot import)
 
 ### Setup
@@ -52,14 +54,14 @@ Personal recipe management and cooking tips web app. Deployed at [cuisine.iknorr
 4. Fill in the environment variables:
 
    ```
-   NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+   DATABASE_URL=<your-neon-connection-string>
+   BLOB_READ_WRITE_TOKEN=<your-vercel-blob-token>
    ANTHROPIC_API_KEY=<your-anthropic-api-key>
    SITE_PASSWORD=<login-password>
    AUTH_SECRET=<random-secret-for-cookie>
    ```
 
-5. Run the database migrations against your Supabase project:
+5. Run the database migrations against your Neon database:
 
    - `supabase/migrations/001_create_recipes.sql`
    - `supabase/migrations/002_create_cooking_tips.sql`
@@ -93,7 +95,7 @@ src/
   components/      # React components
     ui/            # shadcn/ui primitives
   lib/
-    supabase/      # Supabase client (server + browser)
+    db.ts          # Neon database client
     types.ts       # TypeScript types
     recipe-parser.ts   # URL-based recipe import
     ai-extractor.ts    # Screenshot-based recipe import

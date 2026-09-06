@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createRecipe, updateRecipe } from "@/actions/recipes";
-import { createClient } from "@/lib/supabase/client";
+import { upload } from "@vercel/blob/client";
 import { Badge } from "@/components/ui/badge";
 import { Ingredient, Recipe, RecipeCategory, RecipeInsert, RECIPE_CATEGORIES, Step } from "@/lib/types";
 import { toast } from "sonner";
@@ -56,24 +56,18 @@ export function RecipeForm({ recipe, initialData }: RecipeFormProps) {
     }
 
     setUploading(true);
-    const supabase = createClient();
-    const ext = file.name.split(".").pop() || "jpg";
-    const fileName = `${crypto.randomUUID()}.${ext}`;
-    supabase.storage
-      .from("recipe-images")
-      .upload(fileName, file)
-      .then(({ error }) => {
-        if (error) {
-          toast.error(error.message);
-        } else {
-          const { data: urlData } = supabase.storage
-            .from("recipe-images")
-            .getPublicUrl(fileName);
-          setImageUrl(urlData.publicUrl);
-          toast.success("Image uploaded");
-        }
+    upload(file.name, file, {
+      access: "public",
+      handleUploadUrl: "/api/upload",
+      contentType: file.type,
+    })
+      .then((blob) => {
+        setImageUrl(blob.url);
+        toast.success("Image uploaded");
       })
-      .catch(() => toast.error("Upload failed"))
+      .catch((err) =>
+        toast.error(err instanceof Error ? err.message : "Upload failed")
+      )
       .finally(() => setUploading(false));
   }
 
